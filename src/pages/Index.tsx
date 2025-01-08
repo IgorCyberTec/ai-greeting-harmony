@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Mic, MicOff } from 'lucide-react';
-import SoundWave from '../components/SoundWave';
+import CircularSoundWave from '../components/CircularSoundWave';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -10,7 +10,6 @@ const Index = () => {
 
   const toggleListening = () => {
     setIsListening(!isListening);
-    // This would integrate with your Python backend
     console.log('Toggling listening state:', !isListening);
   };
 
@@ -32,7 +31,7 @@ const Index = () => {
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-4">AI Assistant</h1>
           <div className="relative">
-            <SoundWave isActive={isSpeaking} />
+            <CircularSoundWave isActive={isSpeaking} />
           </div>
         </div>
 
