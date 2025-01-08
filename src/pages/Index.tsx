@@ -1,28 +1,52 @@
 import { useState, useEffect } from 'react';
 import { Mic, MicOff } from 'lucide-react';
+import axios from 'axios';
 import SoundWave from '../components/SoundWave';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 
 const Index = () => {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]);
+  const { toast } = useToast();
 
-  const toggleListening = () => {
-    setIsListening(!isListening);
-    console.log('Toggling listening state:', !isListening);
+  const sendMessageToBackend = async (userInput: string) => {
+    try {
+      console.log('Sending message to backend:', userInput);
+      const response = await axios.post('http://127.0.0.1:8000/api/assistant', {
+        user_input: userInput
+      });
+      console.log('Received response:', response.data);
+      return response.data.response;
+    } catch (error) {
+      console.error('Error communicating with backend:', error);
+      toast({
+        title: "Error",
+        description: "Failed to communicate with the assistant. Please try again.",
+        variant: "destructive"
+      });
+      return null;
+    }
   };
 
-  useEffect(() => {
-    if (isListening) {
-      const timer = setTimeout(() => {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Hello! How can I help you today?' }]);
-        setIsSpeaking(true);
-        setTimeout(() => setIsSpeaking(false), 3000);
-      }, 1000);
-      return () => clearTimeout(timer);
+  const toggleListening = async () => {
+    setIsListening(!isListening);
+    console.log('Toggling listening state:', !isListening);
+    
+    if (!isListening) {
+      // Simulating user input for now - replace with actual speech recognition later
+      const userInput = "Hello, how can you help me?";
+      setMessages(prev => [...prev, { role: 'user', content: userInput }]);
+      
+      setIsSpeaking(true);
+      const response = await sendMessageToBackend(userInput);
+      if (response) {
+        setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      }
+      setIsSpeaking(false);
     }
-  }, [isListening]);
+  };
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden">
