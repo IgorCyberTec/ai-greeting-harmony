@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Mic, MicOff } from 'lucide-react';
-import CircularSoundWave from '../components/CircularSoundWave';
+import SoundWave from '../components/SoundWave';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -26,37 +26,15 @@ const Index = () => {
   }, [isListening]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-6">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold mb-4">AI Assistant</h1>
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center">
+      <div className="w-full max-w-3xl">
+        <div className="mb-8">
           <div className="relative">
-            <CircularSoundWave isActive={isSpeaking} />
+            <SoundWave isActive={isSpeaking} />
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-4 mb-6 h-[400px] overflow-y-auto">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`mb-4 ${
-                message.role === 'user' ? 'text-right' : 'text-left'
-              }`}
-            >
-              <div
-                className={`inline-block rounded-lg px-4 py-2 ${
-                  message.role === 'user'
-                    ? 'bg-blue-600'
-                    : 'bg-gray-700'
-                }`}
-              >
-                {message.content}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-8">
           <Button
             onClick={toggleListening}
             className={`rounded-full p-6 ${
