@@ -5,14 +5,14 @@ interface SoundWaveProps {
 }
 
 const SoundWave: React.FC<SoundWaveProps> = ({ isActive }) => {
-  const bars = 30; // Number of bars in the visualization
+  const bars = 50; // Increased number of bars to fill the screen width
 
   return (
-    <div className="flex items-center justify-center gap-[2px] h-24">
+    <div className="flex items-center justify-center gap-[2px] h-24 w-screen">
       {[...Array(bars)].map((_, i) => (
         <div
           key={i}
-          className={`w-1 bg-blue-500 rounded-full transition-all duration-[50ms] transform origin-bottom
+          className={`w-2 bg-blue-500 rounded-full transition-all duration-[50ms] transform origin-bottom
             ${isActive ? 'animate-sound-wave' : 'h-1'}
           `}
           style={{

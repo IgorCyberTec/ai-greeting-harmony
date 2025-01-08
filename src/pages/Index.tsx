@@ -13,7 +13,6 @@ const Index = () => {
     console.log('Toggling listening state:', !isListening);
   };
 
-  // Demo effect - in real implementation this would be controlled by the Python backend
   useEffect(() => {
     if (isListening) {
       const timer = setTimeout(() => {
@@ -26,12 +25,10 @@ const Index = () => {
   }, [isListening]);
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center">
-      <div className="w-full max-w-3xl">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden">
+      <div className="w-full">
         <div className="mb-8">
-          <div className="relative">
-            <SoundWave isActive={isSpeaking} />
-          </div>
+          <SoundWave isActive={isSpeaking} />
         </div>
 
         <div className="flex justify-center mt-8">
